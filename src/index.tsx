@@ -11,12 +11,24 @@ export interface ICsvDownloadProps extends ICsvProps, Omit<React.HTMLAttributes<
   prefix?: PrefixSuffix
   suffix?: PrefixSuffix
   text?: string
+  dataInicial?: string;
+  dataFinal?: string
 }
 
 export default class CsvDownload extends React.Component<ICsvDownloadProps> {
+  private validaData(dataInicial: string | undefined, dataFinal: string | undefined,) {
+    if(dataInicial === '' || dataFinal === ''){
+      alert('error')
+    }
+
+    if(dataInicial === undefined || dataFinal === undefined){
+      alert('error')
+    }
+  }
   public handleClick = async () => {
-    const { suffix, prefix, bom } = this.props
+    const { suffix, prefix, bom, dataInicial, dataFinal } = this.props
     let { filename } = this.props
+    this.validaData(dataInicial, dataFinal);
     const csv = await toCsv(this.props)
 
     const bomCode = bom !== false ? '\ufeff' : ''
@@ -48,6 +60,7 @@ export default class CsvDownload extends React.Component<ICsvDownloadProps> {
       children, text,
       filename, suffix, prefix, bom,
       columns, datas, separator, noHeader, wrapColumnChar, newLineAtEnd, chunkSize,
+      dataFinal, dataInicial,
       ...props
     } = this.props
 
